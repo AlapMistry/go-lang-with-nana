@@ -2,11 +2,11 @@ pipeline {
 
     agent any
 
-    tools { // tools if we don't use wrappers
-        jdk 'JDK-17'
-        maven 'Maven-3.9.4'
-        gradle 'Gradle-8.3'
-    }
+    /*tools { // tools if we don't use wrappers
+        jdk '<jdk-installation-name>'
+        maven '<maven-installation-name>'
+        gradle '<gradle-installation-name>'
+    }*/
 
     stages {
 
@@ -15,17 +15,17 @@ pipeline {
             steps {
                 echo 'building the application...'
                 sh 'java -version'
-                sh 'export JAVA_HOME=/opt/java/openjdk/bin/java'
-                sh 'mvn -v'
-                sh './gradlew -v'
-                echo 'application built'
-                /*nodejs('<nodejs-installation-name>') { // Wrappers
+                /*withMaven(maven: '<maven-installation-name>') { // Wrappers - Install Pipeline Maven Integration Plugin
+                    sh 'mvn -v'
+                }
+                nodejs('<nodejs-installation-name>') { // Install NodeJS plugin
                     sh '<command>'
                 }
-                withGradle() {
+                withGradle() { // Gradle Plugin
                     sh '<command>'
                 }
                 */
+                echo 'application built'
             }
         }
 
