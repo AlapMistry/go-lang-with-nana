@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo 'building the application...'
                 sh 'java -version'
-                sh 'maven -version'
+                sh 'mvn -v'
                 sh './gradlew -v'
                 echo 'application built'
                 /*nodejs('<nodejs-installation-name>') { // Wrappers
