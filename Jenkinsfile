@@ -15,6 +15,7 @@ pipeline {
             steps {
                 echo 'building the application...'
                 sh 'java -version'
+                sh 'export JAVA_HOME=/opt/java/openjdk'
                 sh 'mvn -v'
                 sh './gradlew -v'
                 echo 'application built'
