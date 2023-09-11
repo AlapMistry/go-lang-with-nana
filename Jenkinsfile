@@ -2,7 +2,7 @@ pipeline {
 
     agent any
 
-    /*tools { // tools if we don't use wrappers
+    /*tools { // Tools if we don't use wrappers
         jdk '<jdk-installation-name>'
         maven '<maven-installation-name>'
         gradle '<gradle-installation-name>'
@@ -10,36 +10,40 @@ pipeline {
 
     stages {
 
-        stage("build") {
+        stage("Build") {
 
             steps {
-                echo 'building the application...'
-                sh 'java -version'
+                echo 'Building the application...'
+                sh 'java -version' // For Linux
+                // bat 'java -version' // For Windows
                 /*withMaven(maven: '<maven-installation-name>') { // Wrappers - Install Pipeline Maven Integration Plugin
-                    sh 'mvn -v'
+                    sh 'mvn -v' // For Linux
+                    bat 'mvn -v' // For Windows
                 }
                 nodejs('<nodejs-installation-name>') { // Install NodeJS plugin
-                    sh '<command>'
+                    sh '<command>' // For Linux
+                    bat '<command>' // For Windows
                 }
                 withGradle() { // Gradle Plugin
-                    sh '<command>'
+                    sh '<command>' // For Linux
+                    bat '<command>' // For Windows
                 }
                 */
-                echo 'application built'
+                echo 'Application built'
             }
         }
 
-        stage("test") {
+        stage("Test") {
 
             steps {
-                echo 'testing the application...'
+                echo 'Testing the application...'
             }
         }
 
-        stage("deploy") {
+        stage("Deploy") {
 
             steps {
-                echo 'deploying the application...'
+                echo 'Deploying the application...'
             }
         }
     }
