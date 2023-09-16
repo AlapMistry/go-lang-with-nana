@@ -3,8 +3,8 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'VERSION', defaultValue: '', description: 'Version value')
-        choice(name: 'VERSION', choices: ['1.0.0', '1.1.0', '1.2.0'], description: 'Version choice')
+        string(name: 'VERSION_S', defaultValue: '', description: 'Version value')
+        choice(name: 'VERSION_C', choices: ['1.0.0', '1.1.0', '1.2.0'], description: 'Version choice')
         booleanParam(name: 'executeTests', defaultValue: true, description: 'Boolean value')
     }
 
@@ -72,7 +72,8 @@ pipeline {
                 }
 
                 echo "Deploying the application with ${SERVER_CREDENTIALS}"
-                echo "Deploying the application with version ${params.VERSION}"
+                echo "Deploying the application with version ${params.VERSION_S}"
+                echo "Deploying the application with version ${params.VERSION_C}"
                 // sh "${SERVER_CREDENTIALS}" // For Linux
                 bat "echo ${SERVER_CREDENTIALS}" // For Windows
             }
