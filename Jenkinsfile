@@ -25,8 +25,8 @@ pipeline {
 
             steps {
                 echo "Building the application with version ${NEW_VERSION}"
-                sh 'java -version' // For Linux
-                // bat 'java -version' // For Windows
+                // sh 'java -version' // For Linux
+                bat 'java -version' // For Windows
                 /*withMaven(maven: '<maven-installation-name>') { // Wrappers - Install Pipeline Maven Integration Plugin
                     sh 'mvn -v' // For Linux
                     bat 'mvn -v' // For Windows
@@ -74,7 +74,7 @@ pipeline {
                 echo "Deploying the application with ${SERVER_CREDENTIALS}"
                 echo "Deploying the application with version ${params.VERSION}"
                 // sh "${SERVER_CREDENTIALS}" // For Linux
-                bat "${SERVER_CREDENTIALS}" // For Windows
+                bat "echo ${SERVER_CREDENTIALS}" // For Windows
             }
         }
     }
