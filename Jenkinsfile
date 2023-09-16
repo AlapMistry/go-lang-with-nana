@@ -2,6 +2,17 @@ pipeline {
 
     agent any
 
+    parameters {
+        string(name: 'VERSION', defaultValue: '', description: 'Version value')
+        choice(name: 'VERSION', choices: ['1.0.0', '1.1.0', '1.2.0'], description: 'Version choice')
+        booleanParam(name: 'executeTests', defaultValue: true, description: 'Boolean value')
+    }
+
+    environment {
+        NEW_VERSION = '1.0.0'
+        SERVER_CREDENTIALS = credentials('server-credentials')
+    }
+
     /*tools { // Tools if we don't use wrappers
         jdk '<jdk-installation-name>'
         maven '<maven-installation-name>'
@@ -13,7 +24,7 @@ pipeline {
         stage("Build") {
 
             steps {
-                echo 'Building the application...'
+                echo "Building the application with version ${NEW_VERSION}"
                 sh 'java -version' // For Linux
                 // bat 'java -version' // For Windows
                 /*withMaven(maven: '<maven-installation-name>') { // Wrappers - Install Pipeline Maven Integration Plugin
@@ -35,6 +46,14 @@ pipeline {
 
         stage("Test") {
 
+            when {
+                expression {
+                    // BRANCH_NAME == 'dev' || BRANCH_NAME == 'feature-1'
+                    // params.executeTests == true
+                    params.executeTests
+                }
+            }
+
             steps {
                 echo 'Testing the application...'
             }
@@ -43,8 +62,35 @@ pipeline {
         stage("Deploy") {
 
             steps {
-                echo 'Deploying the application...'
+                withCredentials([ // If we don't use environment variable for it
+                    usernamePassword(credentialsId: 'server-credentials', // For credential type username with password
+                    usernameVariable: 'USERNAME',
+                    passwordVariable: 'PASSWORD')
+                ]) {
+                    echo "${USERNAME}"
+                    echo "${PASSWORD}"
+                }
+
+                echo "Deploying the application with ${SERVER_CREDENTIALS}"
+                echo "Deploying the application with version ${params.VERSION}"
+                // sh "${SERVER_CREDENTIALS}" // For Linux
+                bat "${SERVER_CREDENTIALS}" // For Windows
             }
+        }
+    }
+
+    post {
+
+        always {
+            echo 'Always'
+        }
+
+        success {
+            echo 'Sucess'
+        }
+
+        failure {
+            echo 'Failure'
         }
     }
 }
