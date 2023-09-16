@@ -1,3 +1,5 @@
+def gv
+
 pipeline {
 
     agent any
@@ -21,9 +23,23 @@ pipeline {
 
     stages {
 
+        stage("Init") {
+
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
+            }
+        }
+
         stage("Build") {
 
             steps {
+
+                script {
+                    gv.buildApp()
+                }
+
                 echo "Building the application with version ${NEW_VERSION}"
                 // sh 'java -version' // For Linux
                 bat 'java -version' // For Windows
